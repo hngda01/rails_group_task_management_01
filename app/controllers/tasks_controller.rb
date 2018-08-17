@@ -21,16 +21,13 @@ class TasksController < ApplicationController
 
   def create
     group_taskid = generate_group_task_id
-    @group.members.each do |member|
-      @task = Task.new task_params.merge(member_id: member.id,
-                                         done_tasks: 0,
-                                         group_task_id: group_taskid)
-      @task.subtasks.each do |subtask|
-        subtask.done = Subtask.statuses[:not_started]
-      end
-      @task.remain_time = @task.end_date - 12.hours if @task.end_date
-      task_save
+    @task = Task.new task_params.merge(done_tasks: 0)
+    @task.subtasks.each do |subtask|
+      subtask.done = Subtask.statuses[:not_started]
+      subtask.estimate = 0
     end
+    @task.remain_time = @task.end_date - 12.hours if @task.end_date
+    task_save
     redirect_to group_path(@group.id)
   end
 
@@ -52,9 +49,9 @@ class TasksController < ApplicationController
   def task_save
     if @task.save
       flash[:info] = t "flash.add_task_successful"
-      @group.members.each do |member|
-        member.sent_mail_deadline @task
-      end
+      # @group.members.each do |member|
+      #   member.sent_mail_deadline @task
+      # end
     else
       flash[:danger] = @task.errors.full_messages
     end
@@ -69,15 +66,15 @@ class TasksController < ApplicationController
   end
 
   def change_subtask
-    @subtask = Subtask.find_by id: params[:subtask][:subtask_id]
-    @subtask.update_attribute :done, !@subtask.done?
-    @task = Task.find_by id: @subtask.task_id
-    @task.done_tasks = @task.subtasks.where(done: true).count
-    @task.save
-    respond_to do |format|
-      format.js
-      format.html
-    end
+    @subtask = Subtask.find_by id: params[:subtask][:id]
+    @subtask.done = params[:subtask][:status]
+    @subtask.save
+  end
+
+  def estimate
+    @subtask = Subtask.find_by id: params[:subtask][:id]
+    @subtask.estimate = params[:subtask][:estimate]
+    @subtask.save
   end
 
   private

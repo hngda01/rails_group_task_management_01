@@ -65,7 +65,6 @@ ActiveRecord::Schema.define(version: 20180817044551) do
     t.date "start_date"
     t.date "end_date"
     t.integer "group_id"
-    t.integer "member_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title"

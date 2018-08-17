@@ -35,7 +35,7 @@ class GroupsController < ApplicationController
   end
 
   def show
-    check_leader_or_member params[:id]
+    check_leader_or_member @group.id
     find_users_in_group
     @task = Task.new
     return if current_user.leader?
@@ -137,7 +137,9 @@ class GroupsController < ApplicationController
     @users = if params[:q].present?
                @q.result distinct: true
              else
-               @users_in_group
+               @group.members
+                     .page(params[:page])
+                     .per Settings.users.per_page_search_member
              end
   end
 end

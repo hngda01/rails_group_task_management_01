@@ -39,11 +39,30 @@ function myFunction(id) {
 
 function alert_link(id,name) {
   var xhttp = new XMLHttpRequest();
-  var url = 'http://gtm2018.herokuapp.com/en/add_user_subtask?subtask[id]='+t+'&subtask[user_id]='+id;
+  var url = 'http://0.0.0.0:3000/en/add_user_subtask?subtask[id]='+t+'&subtask[user_id]='+id;
   xhttp.open('GET', url, true);
   xhttp.send();
   var x = document.getElementById('user-div');
   x.style.display = 'none';
   var button = document.getElementById('button'+t);
   button.value = name;
+}
+
+function change_status(subtask_id){
+  var e = document.getElementById(subtask_id);
+  var selected_value = e.options[e.selectedIndex].value;
+  var xhttp = new XMLHttpRequest();
+  var url = 'http://0.0.0.0:3000/en/change_subtask?subtask[id]='+subtask_id+'&subtask[status]='+selected_value;
+  xhttp.open('GET', url, true);
+  xhttp.send();
+}
+
+function estimate(ele){
+  if(event.key === 'Enter') {
+      // alert("value: "+ele.value+" sub: "+ele.name);
+      var xhttp = new XMLHttpRequest();
+      var url = 'http://0.0.0.0:3000/en/estimate?subtask[id]='+ele.name+'&subtask[estimate]='+ele.value;
+      xhttp.open('GET', url, true);
+      xhttp.send();
+    }
 }
