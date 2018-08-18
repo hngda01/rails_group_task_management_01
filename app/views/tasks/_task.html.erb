@@ -1,0 +1,68 @@
+<div class="accordion_container">
+  <div class="accordion d-flex flex-row align-items-center">
+    <table width="100%">
+      <tr>
+        <td width= "200"><%= task.title %></td>
+        <td width="150">
+          <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+          <span class="badge-text"><%= task.end_date %></span>
+        </td>
+        <td width= "200">
+          <div class="progress">
+            <div class="progress-bar" id="dynamic" role="progressbar" aria-valuenow="<%= task.done_tasks %>" aria-valuemax="<%= task.subtasks.count %>" style="width:<%= ( task.done_tasks * 100 / task.subtasks.count) %>%">
+              <%= ( task.done_tasks * 100 / task.subtasks.count).round %>%
+            </div>
+          </div>
+        </td>
+
+      </tr>
+    </table>
+  </div>
+  <div class="accordion_panel">
+    <hr>
+    <i class="fa fa-dot-circle-o" aria-hidden="true">
+      <%= task.content %>
+    </i>
+    <hr>
+    <i class="fa fa-angle-double-down" aria-hidden="true"> <%= t "tasks.show.subtask_list" %>: </i>
+    <br>
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-center"><%= t "reports.subtask" %></th>
+          <th class="text-center"><%= t "tasks.show.status" %></th>
+          <th class="text-center"><%= t "tasks.show.end_date" %></th>
+          <th class="text-center"><%= t "users.new.member" %></th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <% task.subtasks.each do |subtask| %>
+        <tr class="text-center">
+          <td width="200"><%= subtask.content %></td>
+          <% if subtask.done == Subtask.statuses[:not_started] %>
+            <td width="150">
+            <%= t "not_started" %>
+          <% elsif subtask.done == Subtask.statuses[:in_progress] %>
+            <td width="150" bgcolor="BLUE">
+            <%= t "in_progress" %>
+          <% else %>
+            <td width="150" bgcolor="RED">
+            <%= t "completed" %>
+          <% end %>
+          </td>
+          <td width="150" class="text-center">
+            <%= subtask.estimate %>
+          </td>
+          <td width="200">
+            <% if subtask.user %>
+            <input style="width: 100%;" onclick="myFunction(<%= subtask.id %>)" type="button" value="<%= subtask.user.name %>" id="button<%= subtask.id %>"></input>
+            <% else %>
+              <input style="width: 100%;" onclick="myFunction(<%= subtask.id %>)" type="button" value="+ add&emsp;" id="button<%= subtask.id %>"></input>
+            <% end %>
+          </td>
+        </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>

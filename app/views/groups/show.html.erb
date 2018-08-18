@@ -1,0 +1,36 @@
+<% provide :title, t("groups.group") %>
+<div class="courses" style="background: #eee">
+  <div class="container">
+    <div class="row">
+      <!-- Courses Sidebar -->
+      <%= render "menu" %>
+      <!-- Courses Main Content -->
+      <div class="col-lg-8">
+        <center>
+          <div class="sidebar_section_title"><%= t "groups.task_list" %></div>
+        </center>
+        <div class="courses_container">
+          <div class="row courses_row">
+            <% unless @group.tasks.blank? %>
+              <% listTask = @group.tasks.order_gti_asc %>
+              <% listTask.each do |task| %>
+                <% if current_user.leader? %>
+                  <%= render "tasks/task", task: task %>
+                <% else %>
+                  <%= render "tasks/update_task", task: task %>
+                <% end %>
+              <% end %>
+            <% else %>
+              <div class="div-center">
+                <%= t "groups.task_nil" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<%= render "tasks/new_task_modal" %>
+<%= render "user_dialog" %>

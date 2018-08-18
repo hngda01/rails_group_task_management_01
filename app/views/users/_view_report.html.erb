@@ -1,0 +1,7 @@
+<% if @user.followers? current_user %>
+  <h3><%= t "report.reports" %> </h3>
+  <ol class="reports">
+    <%= render @report_ano %>
+  </ol>
+  <%= paginate @report_ano, theme: "twitter-bootstrap-4" %>
+<% end %>

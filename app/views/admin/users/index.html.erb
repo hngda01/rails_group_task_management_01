@@ -1,0 +1,42 @@
+<% provide :title, t("index_admin.title") %>
+<%= stylesheet_link_tag "course", media: "all" %>
+<!-- Course -->
+<div class="col-lg-8 center-lg">
+
+  <div class="course_container">
+    <div class="course_title"><%= t "index_admin.title" %></div>
+    <div class="course_info d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start">
+
+      <!-- Course Info Item -->
+      <div class="course_info_item">
+        <div class="course_info_title"><%= t "index_admin.member" %></div>
+        <div class="course_info_text"><%= @member.count %></div>
+      </div>
+
+      <!-- Course Info Item -->
+      <div class="course_info_item">
+        <div class="course_info_title"><%= t "index_admin.leader" %></div>
+        <div class="course_info_text"><%= @leader_activated.count %></div>
+      </div>
+
+      <!-- Course Info Item -->
+      <div class="course_info_item">
+        <div class="course_info_title"><%= t "index_admin.leader_wait" %></div>
+        <div class="course_info_text"><%= @leader_no_active.count %></div>
+      </div>
+
+    </div>
+
+    <!-- Course Tabs -->
+    <div class="course_tabs_container">
+      <div class="tabs d-flex flex-row align-items-center justify-content-start">
+        <div class="tab active tab_fix_width"><%= t "index_admin.member" %></div>
+        <div class="tab tab_fix_width"><%= t "index_admin.leader" %></div>
+        <div class="tab tab_fix_width"><%= t "index_admin.leader_wait" %></div>
+      </div>
+      <div id = "load_tab">
+        <%= render "tab" %>
+      </div>
+    </div>
+  </div>
+</div>

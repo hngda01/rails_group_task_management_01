@@ -1,0 +1,4 @@
+<% if @report.persisted? %>
+<% else %>
+  $('#report-errors').html("<%= escape_javascript(render('shared/error_messages', object: @report)) %>");
+<% end %>

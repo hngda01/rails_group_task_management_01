@@ -1,0 +1,56 @@
+<div class="courses">
+  <div class="container">
+    <div class="row">
+      <!-- Courses Sidebar -->
+      <%= render "groups/menu" %>
+      <!-- Courses Main Content -->
+      <div class="col-lg-8">
+        <center>
+          <div class="sidebar_section_title"><%= t "tasks.progress" %></div>
+        </center>
+        <br><br>
+        <div class="ex1">
+          <center>
+            <table class="table table-hover table-bordered">
+              <thead>
+                <tr class="table-active">
+                  <th>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<br>
+                    <%= t "tasks.member" %>
+                    </th>
+                  <% @task_statistic.first.subtasks.each do |subtask| %>
+                  <th>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<br>
+                    <%= subtask.content %>
+                    </th>
+                  <% end %>
+                </tr>
+              </thead>
+              <tbody>
+                <% @task_statistic.order(done_tasks: :desc).each do |task2| %>
+                <tr>
+                  <td><%= task2.user.name %></td>
+                  <% task2.subtasks.each do |sub| %>
+                  <td width="">
+                    <% if sub.done%>
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    <% else %>
+                    <!-- <i class="fa fa-times" aria-hidden="true"></i> -->
+                    <% end %>
+                  </td>
+                  <% end %>
+
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </center>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<%= render "new_task_modal" %>

@@ -1,0 +1,9 @@
+<div id ="paginator">
+  <%= paginate user, param_name: param,theme: "twitter-bootstrap-4" , remote: true %>
+  <ul class="users">
+    <% user.each do |u| %>
+      <%= render "users/user", user: u %>
+    <% end %>
+  </ul>
+  <%= paginate user, theme: "twitter-bootstrap-4" %>
+</div>

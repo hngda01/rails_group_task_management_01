@@ -1,0 +1,117 @@
+<%= provide :title, @user.name %>
+<div class="row">
+  <div class="col-lg-3 col-md-6 team_col">
+    <div class="team_item">
+      <div class="team_body">
+        <div class="center_img"><%= gravatar_for @user %></div>
+        <div class="team_title"><a><%= @user.name %></a></div>
+        <div class="team_subtitle"><a><%= @user.email %></div>
+        <div class="social_list">
+          <ul>
+            <%= link_to t("users.show.create_group"), "#", "data-toggle" => "modal", 'data-target' => '#squarespaceModal' %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-9 col-md-6 team_col">
+    <div class="team_item">
+      <div>
+        <section id="team" class="pb-5">
+          <div class="container">
+            <center><h5><%= t "users.show.group_management" %></h5></center>
+            <hr>
+            <div class="row">
+              <% if @user.lead_groups.blank? %>
+
+              <div class="div-center">
+                <%= t "groups.group_nil" %>
+              </div>
+              <% else %>
+              <% @user.lead_groups.each do |group| %>
+              <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="image-flip">
+                  <div class="mainflip">
+                    <div class="frontside">
+                      <div class="card">
+                        <div class="card-body text-center">
+                          <p>
+                           <%= image_tag "https://res.cloudinary.com/gtm2018/image/upload/v1533282145/group.jpg", class: "img-fluid" %>
+                          </p>
+                          <h4 class="card-title"><%= group.name %></h4>
+                          <p class="card-text"><%= group.function %></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="backside">
+                      <div class="card back-card">
+                        <div class="card-body text-center mt-4">
+                          <h4 class="card-title"><%= group.name %></h4>
+                          <p class="card-text"><%= group.description %></p>
+                          <ul class="list-inline">
+                            <li class="list-inline-item">
+                              <%= link_to group, method: :delete,
+                              data: {confirm: t("users.delete.confirm")} do %>
+                              <i class="fa fa-times" ></i>
+                              <% end %>
+                            </li>
+                            <li class="list-inline-item">
+                              <%= link_to group do %>
+                                <i class="fa fa-hand-o-up"></i>
+                              <% end %>
+                            </li>
+                            <li class="list-inline-item">
+                              <%= link_to edit_group_path(group.id) do %>
+                                <i class="fa fa-pencil"></i>
+                              <% end %>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% end %>
+              <% end %>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="squarespaceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title" id="lineModalLabel">
+          <%= t "users.show.create_group" %>
+        </h3>
+      </div>
+      <div class="modal-body">
+        <%= form_for (@group) do |f| %>
+        <div class="form-group">
+          <label for="exampleInputEmail1"><%= t "groups.name" %></label>
+          <%= f.text_field :name, class: "form-control", placeholder: t("groups.name") %>
+        </div>
+
+        <div class="form-group">
+          <label for="exampleInputPassword1"><%= t "groups.function" %></label>
+          <%= f.text_field :function, class: "form-control", placeholder: t("groups.description") %>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1"><%= t "groups.description" %></label>
+          <%= f.text_field :description, class: "form-control", placeholder: t("groups.description") %>
+        </div>
+        <%= f.submit t("users.show.create_group"), class: "btn btn-lg btn-primary btn-block btn-signin" %>
+        <% end %>
+
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+<%= provide :title, @user.name %>
+<div class="row">
+  <div id="current_id" current_id="<%= current_user.id %>"></div>
+  <div class="col-lg-3 col-md-6 team_col">
+    <div class="team_item">
+      <div class="team_body">
+        <div class="center_img"><%= gravatar_for @user %></div>
+        <div class="team_title"><%= link_to @user.name, user_path %></div>
+        <div class="team_subtitle"><a><%= @user.email %></div>
+        <div class="team_subtitle"><a><%= t "report.title" %> (<%= @user.reports.count %>) </a></div>
+        <div class="social_list">
+          <% @user ||= current_user %>
+          <ul>
+            <li><%= link_to t("users.show.following"), following_user_path(@user) %>
+              <br class="stat">
+              <strong id="following"><%= @user.following.count %></strong>
+            </li>
+            <li><%= link_to t("users.show.follower"), followers_user_path(@user) %>
+              <br class="stat">
+              <strong id="followers"> <%= @user.followers.count %></strong>
+            </li>
+          </ul>
+        </div>
+        <%= render "follow_form" if logged_in? %>
+      </div>
+
+      <% @user ||= current_user %>
+      <% if @user == current_user %>
+
+        <div class="team_body_list_group">
+          <div class="team_title"><a><%= t "users.show.search" %></a></div>
+          <div class="social_list">
+            <%= search_form_for @q, url: search_user_path, html: {method: :post} do |sf| %>
+              <div class="search-margin-left">
+                <%= sf.label :task_content_cont, t("users.show.task_content")%>
+              </div>
+              <div class="col-md-12">
+                <%= sf.text_field :task_content_cont, class: "form-control" %>
+              </div>
+              <div class="search-margin-left">
+                <%= sf.label :content_cont, t("users.show.report_content") %>
+              </div>
+              <div class="col-md-12">
+                <%= sf.text_field :content_cont, class: "form-control" %>
+              </div>
+              <div class="search-button">
+                <%= sf.submit %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="team_body_list_group">
+          <div class="team_title"><a><%= t "users.show.list_group" %></a></div>
+          <div class="social_list">
+            <% @user ||= current_user %>
+            <% if @user.groups.count == 0 %>
+              <p><%= t "users.show.null" %></p>
+            <% else %>
+              <% @user.groups.each do |group| %>
+                <li><%= link_to group.name, group %></li>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+  <div class="col-md-8">
+    <% if current_user? @user %>
+      <div id="report-errors"></div>
+      <%= render "shared/report_form" %>
+      <% if @user.reports.any? %>
+        <h3><%= t "report.reports" %> </h3>
+        <ol class="reports" id="report_all">
+          <%= render @reports %>
+        </ol>
+        <%= paginate @reports, theme: "twitter-bootstrap-4" %>
+      <% end %>
+    <% else %>
+      <div id="view_report">
+        <%= render "view_report" %>
+      </div>
+    <% end %>
+
+  </div>
+</div>

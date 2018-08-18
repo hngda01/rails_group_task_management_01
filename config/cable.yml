@@ -1,0 +1,10 @@
+development:
+  adapter: async
+
+test:
+  adapter: async
+
+production:
+  adapter: redis
+  url: redis://redistogo:5857ada71b1f7f054ebae26c79202a3a@spinyfin.redistogo.com:9500/
+  channel_prefix: sample_app_production
