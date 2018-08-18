@@ -67,6 +67,13 @@ class TasksController < ApplicationController
 
   def change_subtask
     @subtask = Subtask.find_by id: params[:subtask][:id]
+    @task = Task.find_by id: @subtask.task_id
+    if params[:subtask][:status].to_i == Subtask.statuses[:completed]
+      @task.done_tasks +=1
+    else
+      @task.done_tasks -=1 if @subtask.done == Subtask.statuses[:completed]
+    end
+    @task.save
     @subtask.done = params[:subtask][:status]
     @subtask.save
   end

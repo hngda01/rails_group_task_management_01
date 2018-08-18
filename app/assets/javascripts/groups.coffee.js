@@ -48,9 +48,33 @@ function alert_link(id,name) {
   button.value = name;
 }
 
+var previous_value = 0;
+
+function get_value(subtask_id){
+  var e = document.getElementById(subtask_id);
+  previous_value = e.options[e.selectedIndex].value;
+}
+
 function change_status(subtask_id){
   var e = document.getElementById(subtask_id);
   var selected_value = e.options[e.selectedIndex].value;
+
+  var now_value = $("#dynamic").attr("aria-valuenow");
+  var max_value = $("#dynamic").attr("aria-valuemax");
+  if(selected_value == 3 ){
+    current_progress = ((++now_value) *100)/max_value;
+    $("#dynamic").css("width", current_progress+ "%")
+      .attr("aria-valuenow", now_value)
+      .text(Math.round(current_progress)+"%");
+  }
+  else{
+    if (previous_value == 3) {
+      current_progress = ((--now_value) *100)/max_value;
+      $("#dynamic").css("width", current_progress+ "%")
+        .attr("aria-valuenow", now_value)
+        .text(Math.round(current_progress)+"%");
+    }
+  }
   var xhttp = new XMLHttpRequest();
   var url = 'http://0.0.0.0:3000/en/change_subtask?subtask[id]='+subtask_id+'&subtask[status]='+selected_value;
   xhttp.open('GET', url, true);
