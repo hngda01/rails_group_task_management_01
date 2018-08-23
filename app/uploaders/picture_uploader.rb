@@ -53,7 +53,6 @@
 #   # end
 # end
 
-
 class PictureUploader < CarrierWave::Uploader::Base
   include Cloudinary::CarrierWave
   version :display do

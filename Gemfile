@@ -11,9 +11,9 @@ gem "bootstrap4-kaminari-views"
 gem "cancancan", "~> 2.0"
 gem "carrierwave-base64"
 gem "chatwork"
+gem "cloudinary"
 gem "coffee-rails", "~> 4.2"
 gem "config"
-gem "cloudinary"
 gem "devise"
 gem "faker"
 gem "figaro"
@@ -42,6 +42,7 @@ group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "capybara", "~> 2.13"
   gem "mysql2"
+  gem "rspec-rails", "~> 3.6"
   gem "rubocop", "~> 0.54.0", require: false
   gem "selenium-webdriver"
 end
